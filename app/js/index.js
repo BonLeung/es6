@@ -1,1 +1,2 @@
-import './class/lesson1.js';
+import 'babel-polyfill';
+import './class/lesson6.js';
