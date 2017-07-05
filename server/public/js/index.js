@@ -62,17 +62,139 @@
 	'use strict';
 
 	{
-	  var obj = {
-	    time: '2017-07-05',
-	    name: 'net',
-	    _r: 123
+	  // 基本定义
+	  var ajax = function ajax(callback) {
+	    console.log('执行');
+	    setTimeout(function () {
+	      callback && callback.call();
+	    }, 1000);
+	  };
+	  ajax(function () {
+	    console.log('timeout');
+	  });
+	}
+
+	{
+	  var _ajax = function _ajax() {
+	    console.log('执行2');
+	    return new Promise(function (resolve, reject) {
+	      setTimeout(function () {
+	        resolve();
+	      }, 1000);
+	    });
 	  };
 
-	  var monitor = new Proxy(obj, {
-	    // 拦截对象属性的读取
-	    get: function get(target, key) {}
+	  _ajax().then(function () {
+	    console.log('promise', 'timeout2');
 	  });
-	  monitor;
+	}
+
+	{
+	  var _ajax2 = function _ajax2() {
+	    console.log('执行3');
+	    return new Promise(function (resolve, reject) {
+	      setTimeout(function () {
+	        resolve();
+	      }, 1000);
+	    });
+	  };
+
+	  _ajax2().then(function () {
+	    return new Promise(function (resolve, reject) {
+	      setTimeout(function () {
+	        resolve();
+	      }, 1000);
+	    });
+	  }).then(function () {
+	    console.log('timeout3');
+	  });
+	}
+
+	{
+	  var _ajax3 = function _ajax3(num) {
+	    console.log('执行4');
+	    return new Promise(function (resolve, reject) {
+	      if (num > 5) {
+	        resolve();
+	      } else {
+	        throw new Error('出错了');
+	      }
+	    });
+	  };
+
+	  _ajax3(6).then(function () {
+	    console.log('log', 6);
+	  }).catch(function (error) {
+	    console.log('error', error);
+	  });
+
+	  _ajax3(3).then(function () {
+	    console.log('log', 6);
+	  }).catch(function (error) {
+	    console.log('error', error);
+	  });
+	}
+
+	{
+	  // 所有图片加载完在添加到页面
+	  var loadImg = function loadImg(src) {
+	    return new Promise(function (resolve, reject) {
+	      var img = document.createElement('img');
+	      img.src = src;
+	      img.onload = function () {
+	        resolve(img);
+	      };
+	      img.onerror = function (error) {
+	        reject(error);
+	      };
+	    });
+	  };
+
+	  var showImgs = function showImgs(imgs) {
+	    imgs.forEach(function (img) {
+	      document.body.appendChild(img);
+	    });
+	  };
+
+	  Promise.all([loadImg('http://i4.buimg.com/567571/df1ef0720bea6832.png'), loadImg('http://i4.buimg.com/567571/2b07ee25b08930ba.png'), loadImg('http://i2.muimg.com/567571/5eb8190d6b2a1c9c.png')]).then(showImgs);
+	}
+
+	{
+	  // 有一个图片加载完就添加到页面
+	  var _loadImg = function _loadImg(src) {
+	    return new Promise(function (resolve, reject) {
+	      var img = document.createElement('img');
+	      img.src = src;
+	      img.onload = function () {
+	        resolve(img);
+	      };
+	      img.onerror = function (error) {
+	        reject(error);
+	      };
+	    });
+	  };
+
+	  var _showImgs = function _showImgs(img) {
+	    var p = document.createElement('p');
+	    p.appendChild(img);
+	    document.body.appendChild(p);
+	  };
+
+	  Promise.race([_loadImg('http://i4.buimg.com/567571/df1ef0720bea6832.png'), _loadImg('http://i4.buimg.com/567571/2b07ee25b08930ba.png'), _loadImg('http://i2.muimg.com/567571/5eb8190d6b2a1c9c.png')]).then(_showImgs);
+	}
+
+	{
+	  for (var _i = 0; _i < 10; _i++) {
+	    console.log(_i);
+	  }
+	  console.log('let', i);
+	}
+
+	{
+	  for (var i = 0; i < 10; i++) {
+	    console.log(i);
+	  }
+	  console.log('var', i);
 	}
 
 /***/ })
