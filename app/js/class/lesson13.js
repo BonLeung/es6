@@ -127,18 +127,3 @@
     loadImg('http://i2.muimg.com/567571/5eb8190d6b2a1c9c.png')
   ]).then(showImgs);
 }
-
-
-{
-  for(let i = 0; i < 10; i++) {
-    console.log(i);
-  }
-  console.log('let', i);
-}
-
-{
-  for (var i = 0; i < 10; i++) {
-    console.log(i);
-  }
-  console.log('var', i);
-}

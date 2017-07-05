@@ -1,4 +1,2 @@
-// import 'babel-polyfill';
-// import './class/lesson6.js';
-
-import './class/lesson13.js';
+import 'babel-polyfill';
+import Lottery from './lottery.js';
