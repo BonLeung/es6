@@ -8709,100 +8709,23 @@
 
 	__webpack_require__(300);
 
-	__webpack_require__(301);
-
 	__webpack_require__(302);
 
 	__webpack_require__(303);
 
+	__webpack_require__(304);
+
 /***/ }),
 /* 300 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-/***/ }),
-/* 301 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Timer = function () {
-	  function Timer() {
-	    _classCallCheck(this, Timer);
-	  }
-
-	  _createClass(Timer, [{
-	    key: 'countdown',
-	    value: function countdown(end, update, handle) {
-	      var now = new Date().getTime();
-	      var self = this;
-	      if (now - end) {
-	        handle.call(self);
-	      } else {
-	        var last_time = end - now;
-	        var px_d = 1000 * 60 * 60 * 24;
-	        var px_h = 1000 * 60 * 60;
-	        var px_m = 1000 * 60;
-	        var px_s = 1000;
-	        var d = Math.floor(last_time / px_d);
-	        var h = Math.floor((last_time - d * px_d) / px_h);
-	        var m = Math.floor((last_time - d * px_d - h * px_h) / px_m);
-	        var s = Math.floor((last_time - d * px_d - h * px_h - m * px_m) / px_s);
-	        var r = [];
-	        if (d > 0) {
-	          r.push('<em>' + d + '</em>\u5929');
-	        }
-	        if (r.length || h > 0) {
-	          r.push('<em>' + h + '</em>\u65F6');
-	        }
-	        if (r.length || m > 0) {
-	          r.push('<em>' + m + '</em>\u5206');
-	        }
-	        if (r.length || s > 0) {
-	          r.push('<em>' + s + '</em>\u79D2');
-	        }
-	        self.last_time = r.join('');
-	        update.call(self, r.join(''));
-	        setTimeout(function () {
-	          self.countdown(end, update, handle);
-	        }, 1000);
-	      }
-	    }
-	  }]);
-
-	  return Timer;
-	}();
-
-	exports.default = Timer;
-
-/***/ }),
-/* 302 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-/***/ }),
-/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _jquery = __webpack_require__(304);
+	var _jquery = __webpack_require__(301);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -8810,105 +8733,162 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Interface = function () {
-	  function Interface() {
-	    _classCallCheck(this, Interface);
+	var Base = function () {
+	  function Base() {
+	    _classCallCheck(this, Base);
 	  }
 
-	  _createClass(Interface, [{
-	    key: 'getOmit',
-
+	  _createClass(Base, [{
+	    key: 'initPlayList',
 
 	    /**
-	     * 获取遗漏数据
-	     * @param  {string} issue 当前期号
-	     * @return {type}       description
+	     * [initPlayList 初始化奖金和玩法及说明]
+	     * @return {[type]} [description]
 	     */
-	    value: function getOmit(issue) {
-	      var self = this;
-	      return new Promise(function (resolve, reject) {
-	        _jquery2.default.ajax({
-	          url: '/get/omit',
-	          data: {
-	            issue: issue
-	          },
-	          dataType: 'json',
-	          success: function success(res) {
-	            self.setOmit(res.data);
-	            resolve.call(self, res);
-	          },
-	          error: function error(_error) {
-	            reject.class(_error);
-	          }
-	        });
+	    value: function initPlayList() {
+	      this.play_list.set('r2', {
+	        bonus: 6,
+	        tip: '从01~11中任选2个或多个号码，所选号码与开奖号码任意两个号码相同，即中奖<em class="red">6</em>元',
+	        name: '任二'
+	      }).set('r3', {
+	        bonus: 19,
+	        tip: '从01~11中任选3个或多个号码，选号与奖号任意三个号相同，即中奖<em class="red">19</em>元',
+	        name: '人三'
+	      }).set('r4', {
+	        bonus: 78,
+	        tip: '从01~11中任选4个或多个号码，所选号码与开奖号码任意四个号码相同，即中奖<em class="red">78</em>元',
+	        name: '任四'
+	      }).set('r5', {
+	        bonus: 540,
+	        tip: '从01~11中任选5个或多个号码，所选号码与开奖号码相同，即中奖<em class="red">540</em>元',
+	        name: '任五'
+	      }).set('r6', {
+	        bonus: 90,
+	        tip: '从01~11中任选6个或多个号码，所选号码与开奖号码相同，即中奖<em class="red">90</em>元',
+	        name: '任六'
+	      }).set('r7', {
+	        bonus: 26,
+	        tip: '从01~11中任选7个或多个号码，选号与奖号五个号相同，即中奖<em class="red">26</em>元',
+	        name: '任七'
+	      }).set('r8', {
+	        bonus: 9,
+	        tip: '从01~11中任选8个或多个号码，选号与奖号五个号相同，即中奖<em class="red">9</em>元',
+	        name: '任八'
 	      });
 	    }
 
 	    /**
-	     * getOpenCode -  获取开奖号码
-	     *
-	     * @param  {string} issue 期号
-	     * @return {type}       description
+	     * [initNumber 初始化号码]
+	     * @return {[type]} [description]
 	     */
 
 	  }, {
-	    key: 'getOpenCode',
-	    value: function getOpenCode(issue) {
+	    key: 'initNumber',
+	    value: function initNumber() {
+	      for (var i = 0; i < 12; i++) {
+	        this.number.add('' + i).padStart(2, '0');
+	      }
+	    }
+
+	    /**
+	     * [setOmit 设置遗漏数据]
+	     * @param {[type]} omit [description]
+	     */
+
+	  }, {
+	    key: 'setOmit',
+	    value: function setOmit(omit) {
 	      var self = this;
-	      return new Promise(function (resolve, reject) {
-	        _jquery2.default.ajax({
-	          url: '/get/opencode',
-	          data: {
-	            issue: issue
-	          },
-	          dataType: 'json',
-	          success: function success(res) {
-	            self.setOpenCode(res.data);
-	            resolve.call(self, res);
-	          },
-	          error: function error(_error2) {
-	            reject.call(_error2);
+	      self.omit.clear();
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+
+	      try {
+	        for (var _iterator = omit.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var _step$value = _slicedToArray(_step.value, 2),
+	              index = _step$value[0],
+	              item = _step$value[1];
+
+	          self.omit.set(index, item);
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
 	          }
-	        });
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+
+	      (0, _jquery2.default)(self.omit_el).each(function (index, item) {
+	        (0, _jquery2.default)(item).text(self.omit.get(index));
 	      });
 	    }
 
 	    /**
-	     * getState - 获取当前状态
-	     *
-	     * @param  {string} issue 当前期号
-	     * @return {type}       description
+	     * [setOpenCode 设置开奖]
+	     * @param {[type]} code [description]
 	     */
 
 	  }, {
-	    key: 'getState',
-	    value: function getState(issue) {
+	    key: 'setOpenCode',
+	    value: function setOpenCode(code) {
 	      var self = this;
-	      return new Promise(function (resolve, reject) {
-	        _jquery2.default.ajax({
-	          url: '/get/state',
-	          data: {
-	            issue: issue
-	          },
-	          dataType: 'json',
-	          success: function success(res) {
-	            resolve.call(self, res);
-	          },
-	          error: function error(_error3) {
-	            reject.call(_error3);
+	      self.open_code.clear();
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
+
+	      try {
+	        for (var _iterator2 = code.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var item = _step2.value;
+
+	          self.open_code.add(item);
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
 	          }
-	        });
-	      });
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
+	        }
+	      }
+
+	      self.updateOpenCode && self.updateOpenCode.call(self, code);
+	    }
+
+	    /**
+	     * [toggleCodeActive 号码选中取消]
+	     * @return {[type]} [description]
+	     */
+
+	  }, {
+	    key: 'toggleCodeActive',
+	    value: function toggleCodeActive(e) {
+	      var self = this;
+	      var $cur = (0, _jquery2.default)(e.currentTarget);
+	      $cur.toggleClass('btn-boll-active');
 	    }
 	  }]);
 
-	  return Interface;
+	  return Base;
 	}();
 
-	exports.default = Interface;
-
 /***/ }),
-/* 304 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -18740,6 +18720,192 @@
 		return jQuery;
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)(module)))
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Timer = function () {
+	  function Timer() {
+	    _classCallCheck(this, Timer);
+	  }
+
+	  _createClass(Timer, [{
+	    key: 'countdown',
+	    value: function countdown(end, update, handle) {
+	      var now = new Date().getTime();
+	      var self = this;
+	      if (now - end) {
+	        handle.call(self);
+	      } else {
+	        var last_time = end - now;
+	        var px_d = 1000 * 60 * 60 * 24;
+	        var px_h = 1000 * 60 * 60;
+	        var px_m = 1000 * 60;
+	        var px_s = 1000;
+	        var d = Math.floor(last_time / px_d);
+	        var h = Math.floor((last_time - d * px_d) / px_h);
+	        var m = Math.floor((last_time - d * px_d - h * px_h) / px_m);
+	        var s = Math.floor((last_time - d * px_d - h * px_h - m * px_m) / px_s);
+	        var r = [];
+	        if (d > 0) {
+	          r.push('<em>' + d + '</em>\u5929');
+	        }
+	        if (r.length || h > 0) {
+	          r.push('<em>' + h + '</em>\u65F6');
+	        }
+	        if (r.length || m > 0) {
+	          r.push('<em>' + m + '</em>\u5206');
+	        }
+	        if (r.length || s > 0) {
+	          r.push('<em>' + s + '</em>\u79D2');
+	        }
+	        self.last_time = r.join('');
+	        update.call(self, r.join(''));
+	        setTimeout(function () {
+	          self.countdown(end, update, handle);
+	        }, 1000);
+	      }
+	    }
+	  }]);
+
+	  return Timer;
+	}();
+
+	exports.default = Timer;
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+/***/ }),
+/* 304 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _jquery = __webpack_require__(301);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Interface = function () {
+	  function Interface() {
+	    _classCallCheck(this, Interface);
+	  }
+
+	  _createClass(Interface, [{
+	    key: 'getOmit',
+
+
+	    /**
+	     * 获取遗漏数据
+	     * @param  {string} issue 当前期号
+	     * @return {type}       description
+	     */
+	    value: function getOmit(issue) {
+	      var self = this;
+	      return new Promise(function (resolve, reject) {
+	        _jquery2.default.ajax({
+	          url: '/get/omit',
+	          data: {
+	            issue: issue
+	          },
+	          dataType: 'json',
+	          success: function success(res) {
+	            self.setOmit(res.data);
+	            resolve.call(self, res);
+	          },
+	          error: function error(_error) {
+	            reject.class(_error);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * getOpenCode -  获取开奖号码
+	     *
+	     * @param  {string} issue 期号
+	     * @return {type}       description
+	     */
+
+	  }, {
+	    key: 'getOpenCode',
+	    value: function getOpenCode(issue) {
+	      var self = this;
+	      return new Promise(function (resolve, reject) {
+	        _jquery2.default.ajax({
+	          url: '/get/opencode',
+	          data: {
+	            issue: issue
+	          },
+	          dataType: 'json',
+	          success: function success(res) {
+	            self.setOpenCode(res.data);
+	            resolve.call(self, res);
+	          },
+	          error: function error(_error2) {
+	            reject.call(_error2);
+	          }
+	        });
+	      });
+	    }
+
+	    /**
+	     * getState - 获取当前状态
+	     *
+	     * @param  {string} issue 当前期号
+	     * @return {type}       description
+	     */
+
+	  }, {
+	    key: 'getState',
+	    value: function getState(issue) {
+	      var self = this;
+	      return new Promise(function (resolve, reject) {
+	        _jquery2.default.ajax({
+	          url: '/get/state',
+	          data: {
+	            issue: issue
+	          },
+	          dataType: 'json',
+	          success: function success(res) {
+	            resolve.call(self, res);
+	          },
+	          error: function error(_error3) {
+	            reject.call(_error3);
+	          }
+	        });
+	      });
+	    }
+	  }]);
+
+	  return Interface;
+	}();
+
+	exports.default = Interface;
 
 /***/ })
 /******/ ]);
